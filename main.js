@@ -287,7 +287,7 @@
       {
         extension: "rs",
         name: "Rust",
-        command: "rustc '$uri' && ./'$nameNoExt'",
+        command: "cargo run",
       },
       {
         extension: "ex",
