@@ -743,6 +743,7 @@
         .replaceAll("$nameNoExt", fileNameNoExt)
         .replaceAll("$dirNoSlash", dir.slice(0, dir.length - 1))
         .replaceAll("$workspaceUrl", folder?.url)
+        .replaceAll("$workspace",folder?.url.split("::")[1])
         .replaceAll("$name", file.name)
         .replaceAll("$dir", dir)
         .replaceAll("$uri", uri);
