@@ -122,10 +122,17 @@ if (runner) {
 `$uri` -> File Uri
 
 `$workspaceUrl` -> Folder which the file belongs to.
-
+`$workspace` -> Get Root Project Directory Path
 
 ## Updates
-
+<details>
+  <summary>
+    <code><strong>v1.1.4</strong></code>
+  </summary>
+  <ul>
+    <li>Add Keys $workspace</li>
+  </ul>
+</details>
 <details>
   <summary>
     <code><strong>v1.1.3</strong></code>
