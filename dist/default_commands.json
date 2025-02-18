@@ -178,12 +178,12 @@
 	{
 		"extension": "java",
 		"name": "Gradle Sync",
-		"command": "cd $workspace && gradlew build --refresh-dependencies"
+		"command": "cd $workspace && gradle build --refresh-dependencies"
 	},
 	{
 		"extension": "kt",
 		"name": "Gradle Sync",
-		"command": "cd $workspace && gradlew build --refresh-dependencies"
+		"command": "cd $workspace && gradle build --refresh-dependencies"
 	},
 	{
 		"extension": "kt",
