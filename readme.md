@@ -1,9 +1,29 @@
 # Code Runner
-> Acodex plugin Is required to use this extension
+
+> **Note**
+> Backup your commands before updating this plugin.
+> Commands are moved to a `commands.json` file.
+> You can edit the file through the run button `Edit commands` option.
 
 Acode plugin for running code directly from acode
 
-## Run Code
+> Now worls with `AcodeX` and `Acode Terminal` plugins.
+
+## What's new (1.1.4 / 1.1.5)
+
+<details>
+  <summary>
+    <code><strong>v1.1.4 / 1.1.5</strong></code>
+  </summary>
+  <ul>
+    <li>Added support for setting default handler.</li>
+    <li>Added setting to disable command editing.</li>
+    <li>Minor Bug Fix</li>
+  </ul>
+</details>
+
+## How to use
+
 <ul>
 <li>Install plugin and acodex plugin</li>
 <li>Start acodex terminal.</li>
@@ -11,28 +31,33 @@ Acode plugin for running code directly from acode
 <li>Hold the run button down to view/edit the command before running.</li>
 </ul>
 
-## Exposed API
+## API
+
 ```javascript
 let runner = acode.require("code.runner");
 
 // Function Handler
 runner.addHandler({
-  name: "python", extension: "py",
-  match: "*.py", handler(file) {
+  name: "python",
+  extension: "py",
+  match: "*.py",
+  icon: "file file_type_python",
+  handler(file) {
     if (useIpython) {
-      return `cd $dir && ipython ${file.name}`
+      return `cd $dir && ipython ${file.name}`;
     } else {
-      return `cd $dir && python ${file.name}`
+      return `cd $dir && python ${file.name}`;
     }
-  }
-})
+  },
+});
 
 // String handler
 runner.addHandler({
   name: "javascript",
   extension: "js",
-  command: "node $path"
-})
+  icon: "javascript",
+  command: "node $path",
+});
 
 // Remove handlers.
 runner.removeHandler("javascipt");
@@ -43,17 +68,38 @@ runner.addHandler({
     return file.name == "package.json";
   },
   handler(file) {
-    return "npm run"
-  }
-})
+    return "npm run";
+  },
+});
 
+// Use this syntax if you want to use code runner.
+function main(runner) {
+  runner.addHandler({
+    ...
+  });
+}
+
+let runner = acode.require("code.runner");
+if (runner) {
+  return main(runner);
+} else {
+  let handler = ({ detail }) => {
+    if (detail.name == "coderunner") {
+      main(acode.require("code.runner"));
+      document.removeEventListener("plugin.install", handler);
+    }
+  };
+  document.addEventListener("plugin.install", handler);
+}
 ```
 
-#### Add Handler Parameter
+### Add Handler
 
 `runner.addHandler` accepts an object with the following keys:
 
 `name`: Name to be displayed if multiple handlers are found.
+
+`icon`: Icon to be displayed if multiple handlers are found.
 
 `extension`: File extension (optional).
 
@@ -63,47 +109,65 @@ runner.addHandler({
 
 `command`: String command used to run the file.
 
-#### Command Placeholders
+### Command Placeholders
 
-"$name" -> File name
+`$name` -> File name
 
-"$nameNoExt" -> Name without extension
+`$nameNoExt` -> Name without extension
 
-"$dir" -> File Absolute Directory
+`$dir` -> File Absolute Directory
 
-"$dirNoSlash" -> File Directory without ending slash
+`$dirNoSlash` -> File Directory without ending slash
 
-"$uri" -> File Uri
+`$uri` -> File Uri
 
-"$workspaceUrl" -> Folder amongst open folders which the file belongs to.
+`$workspaceUrl` -> Folder which the file belongs to.
+
 
 ## Updates
+
 <details>
   <summary>
-    <code><strong>v1.0.2</strong></code>
+    <code><strong>v1.1.3</strong></code>
   </summary>
   <ul>
-    <li>Added keyboard shortcut <kbd>ctrl+r</kbd></li>
-    <li>Alerts you if acodex is not installed.</li>
-    <li>Logs to "Acode SDK" logger if installed.</li>
-    <li>Supports up to 50 languages</li>
+    <li>Added 'icon' to handlers, fixed bugs, better command editing.</li>
+    <li>Added 'Acode Terminal' backend, Fixed 'AcodeX' backend.</li>
+    <li>Moved commands to `commands.json`.</li>
   </ul>
 </details>
 <details>
   <summary>
-    <code><strong>v1.0.3, v1.0.4</strong></code>
+    <code><strong>v1.1.2</strong></code>
+  </summary>
+  <ul>
+    <li>Added 'plugin.install' event listener so other plugins know when code runner is installed if not already installed. Use `event.target.detail.name == 'coderunner'` to check if the installed plugin is acode sdk.</li>
+  </ul>
+</details>
+<details>
+  <summary>
+    <code><strong>v1.1.0, v1.1.1</strong></code>
+  </summary>
+  <ul>
+    <li>Updated apis</li>
+  </ul>
+</details>
+<details>
+  <summary>
+    <code><strong>v1.0.8, 1.0.9</strong></code>
   </summary>
   <ul>
     <li>Bug fixes</li>
-    <li>Ability to run package.json scripts</li>
   </ul>
 </details>
 <details>
   <summary>
-    <code><strong>v1.0.5</strong></code>
+    <code><strong>v1.0.7</strong></code>
   </summary>
   <ul>
-    <li>Added option to edit and add commands from settings page</li>
+    <li>Added ability to run projects (based on the content of the workspace directory). E.g: Opening a folder with the file 'package.json' allows you to run the 'NPM' project which gives you the optikn to select from the scripts defined in 'package.json'. Opening a project with 'manage.py' allows you to run the 'django' project.</li>
+    <li>Added option to select between built-in runner (acode) or using terminal.</li>
+    <li>Added option to disable Projects runner in settings.</li>
   </ul>
 </details>
 <details>
@@ -119,19 +183,29 @@ runner.addHandler({
 </details>
 <details>
   <summary>
-    <code><strong>v1.0.7</strong></code>
+    <code><strong>v1.0.5</strong></code>
   </summary>
   <ul>
-    <li>Added ability to run projects (based on the content of the workspace directory). E.g: Opening a folder with the file 'package.json' allows you to run the 'NPM' project which gives you the optikn to select from the scripts defined in 'package.json'. Opening a project with 'manage.py' allows you to run the 'django' project.</li>
-    <li>Added option to select between built-in runner (acode) or using terminal.</li>
-    <li>Added option to disable Projects runner in settings.</li>
+    <li>Added option to edit and add commands from settings page</li>
   </ul>
 </details>
 <details>
   <summary>
-    <code><strong>v1.0.8, 1.0.9</strong></code>
+    <code><strong>v1.0.3, v1.0.4</strong></code>
   </summary>
   <ul>
     <li>Bug fixes</li>
+    <li>Ability to run package.json scripts</li>
+  </ul>
+</details>
+<details>
+  <summary>
+    <code><strong>v1.0.2</strong></code>
+  </summary>
+  <ul>
+    <li>Added keyboard shortcut <kbd>ctrl+r</kbd></li>
+    <li>Alerts you if acodex is not installed.</li>
+    <li>Logs to "Acode SDK" logger if installed.</li>
+    <li>Supports up to 30 languages</li>
   </ul>
 </details>
