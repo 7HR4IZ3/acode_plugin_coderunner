@@ -125,15 +125,17 @@ if (runner) {
 
 `$workspace` -> Get Root Project Directory Path
 
+
 ## Updates
 <details>
   <summary>
     <code><strong>v1.1.4</strong></code>
   </summary>
   <ul>
-    <li>Add Keys $workspace</li>
+    <li>Add $workspace</li>
   </ul>
 </details>
+
 <details>
   <summary>
     <code><strong>v1.1.3</strong></code>
@@ -144,6 +146,7 @@ if (runner) {
     <li>Moved commands to `commands.json`.</li>
   </ul>
 </details>
+
 <details>
   <summary>
     <code><strong>v1.1.2</strong></code>

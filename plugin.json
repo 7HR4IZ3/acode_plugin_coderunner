@@ -6,7 +6,7 @@
   "readme": "readme.md",
   "icon": "icon.png",
   "files": [
-    ""
+    "default_commands.json"
   ],
   "minVersionCode": 290,
   "price": 0,
